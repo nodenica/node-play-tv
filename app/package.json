@@ -1,0 +1,22 @@
+{
+  "name": "playtv",
+  "main": "views/index.html",
+  "version": "0.0.1",
+  "single-instance": true,
+  "window": {
+    "title": "playTv",
+    "width": 650,
+    "height": 650,
+    "min_width": 650,
+    "min_height": 650,
+    "toolbar": false,
+    "fullscreen": true,
+    "frame": false
+  },
+  "nodejs": true,
+  "chromium-args": "--child-clean-exit",
+  "dependencies": {
+    "express": "4.9.0",
+    "socket.io": "1.1.0"
+  }
+}

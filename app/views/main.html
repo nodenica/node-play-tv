@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video Player</title>
+  <!-- Chang URLs to wherever Video.js files will be hosted -->
+  <link href="../css/main.css" rel="stylesheet" type="text/css">
+  <link href="../css/video-js.min.css" rel="stylesheet" type="text/css">
+  <!-- video.js must be in the <head> for older IEs to work. -->
+  <script src="../js/video.js"></script>
+  <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
+  <script>
+  videojs.options.flash.swf = "../swf/video-js.swf";
+  </script>
+</head>
+<body>
+  <div id="container">
+    <video id="video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="none" width="100%" height="100%" poster="http://video-js.zencoder.com/oceans-clip.png" data-setup="{}">
+      <source src="../videos/oceans-clip.mp4" type='video/mp4' />
+    </video>
+  </div>
+  <script src="../js/jquery.min.js"></script>
+  <script src="http://127.0.0.1:10086/socket.io/socket.io.js"></script>
+  <script>
+  $(document).on('ready', function() {
+    // Scale video based window
+    // http://stackoverflow.com/a/11804778/490465
+    var $player = $('#video');
+    var $window = $(window);
+    $player[0].height = $window.height();
+    $player.css('left', (($window.width() - $player.width()) / 2) + "px");
+
+    // Instance video
+    var player = videojs('video');
+
+    // Enable websocket
+    var socket = io.connect('http://127.0.0.1:10086');
+    socket.on('wsGetData', function (data) {
+      switch(data.action){
+        case 'play':
+          player.play();
+        break;
+        case 'pause':
+          player.pause();
+        break;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
